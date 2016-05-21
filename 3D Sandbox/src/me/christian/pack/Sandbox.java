@@ -1,6 +1,5 @@
 package me.christian.pack;
 
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -34,9 +33,8 @@ public class Sandbox extends Application {
 	final Xform cameraXform = new Xform();
 	final Xform cameraXform2 = new Xform();
 	final Xform cameraXform3 = new Xform();
-	final double cameraDistance = 1500;
+	final double cameraDistance = 600;
 	final Xform moleculeGroup = new Xform();
-	private Timeline timeline;
 	boolean timelinePlaying = false;
 	double ONE_FRAME = 1.0/24.0;
 	double DELTA_MULTIPLIER = 200.0;
@@ -195,28 +193,7 @@ public class Sandbox extends Application {
 		
 		Button Place = new Button("Place Object");
 		Place.setOnAction(ae ->{
-			Xform tempXform = new Xform();
-			Shape3D myObj = null;
-			if(objType == 0){
-				myObj = new Box(10, 10, 10);
-			}else if(objType == 1){
-				myObj = new Sphere(10);
-			}else if(objType == 2){
-				myObj = new Cylinder(10, 10);
-			}
-			
-			tempXform.setTranslateX(prevXform.getTranslateX());
-			tempXform.setTranslateY(prevXform.getTranslateY());
-			tempXform.setTranslateZ(prevXform.getTranslateZ());
-			tempXform.setRotate(prevXform.getRotate());
-			
-			myObj.setMaterial(prevObject.getMaterial());
-			myObj.setScaleX(prevObject.getScaleX());
-			myObj.setScaleY(prevObject.getScaleY());
-			myObj.setScaleZ(prevObject.getScaleZ());
-
-			tempXform.getChildren().add(myObj);
-			moleculeGroup.getChildren().add(tempXform);
+			placeElement();
 		});
 		ToolBox.getChildren().add(Place);
 		
@@ -251,6 +228,31 @@ public class Sandbox extends Application {
 		scene.setCamera(camera);
 
 	}
+	
+	private void placeElement(){
+		Xform tempXform = new Xform();
+		Shape3D myObj = null;
+		if(objType == 0){
+			myObj = new Box(10, 10, 10);
+		}else if(objType == 1){
+			myObj = new Sphere(10);
+		}else if(objType == 2){
+			myObj = new Cylinder(10, 10);
+		}
+		
+		tempXform.setTranslateX(prevXform.getTranslateX());
+		tempXform.setTranslateY(prevXform.getTranslateY());
+		tempXform.setTranslateZ(prevXform.getTranslateZ());
+		tempXform.setRotate(prevXform.getRotate());
+		
+		myObj.setMaterial(prevObject.getMaterial());
+		myObj.setScaleX(prevObject.getScaleX());
+		myObj.setScaleY(prevObject.getScaleY());
+		myObj.setScaleZ(prevObject.getScaleZ());
+
+		tempXform.getChildren().add(myObj);
+		moleculeGroup.getChildren().add(tempXform);
+	}
 
 	private void buildAxes() {
 		System.out.println("buildAxes()");
@@ -283,8 +285,6 @@ public class Sandbox extends Application {
 		final PhongMaterial blueMaterial = new PhongMaterial();
 		blueMaterial.setDiffuseColor(Color.BLUE);
 		blueMaterial.setSpecularColor(Color.PURPLE);
-
-
 
 		prevXform = new Xform();
 
@@ -388,14 +388,7 @@ public class Sandbox extends Application {
 					prevXform.setTranslateX(prevXform.getTranslateX()-5);
 					break;
 				case SPACE:
-					if (timelinePlaying) {
-						timeline.pause();
-						timelinePlaying = false;
-					}
-					else {
-						timeline.play();
-						timelinePlaying = true;
-					}
+					placeElement();
 					break;
 				case UP:
 					if (event.isControlDown() && event.isShiftDown()) {
