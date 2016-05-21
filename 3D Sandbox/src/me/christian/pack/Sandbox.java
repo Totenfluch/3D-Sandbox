@@ -205,12 +205,16 @@ public class Sandbox extends Application {
 				myObj = new Cylinder(10, 10);
 			}
 			
-			tempXform.setTranslate(prevXform.getTranslateX(), prevXform.getTranslateY(), prevXform.getTranslateZ());
+			tempXform.setTranslateX(prevXform.getTranslateX());
+			tempXform.setTranslateY(prevXform.getTranslateY());
+			tempXform.setTranslateZ(prevXform.getTranslateZ());
+			tempXform.setRotate(prevXform.getRotate());
+			
 			myObj.setMaterial(prevObject.getMaterial());
 			myObj.setScaleX(prevObject.getScaleX());
 			myObj.setScaleY(prevObject.getScaleY());
 			myObj.setScaleZ(prevObject.getScaleZ());
-			myObj.setRotate(prevObject.getRotate());
+
 			tempXform.getChildren().add(myObj);
 			moleculeGroup.getChildren().add(tempXform);
 		});
