@@ -21,6 +21,7 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -45,6 +46,10 @@ public class Sandbox extends Application {
 	private Shape3D prevObject;
 	private Xform prevXform;
 	private int objType = 0;
+	
+	private double pivotX=0;
+	private double pivotY=0;
+	private double pivotZ=0;
 
 	double mousePosX;
 	double mousePosY;
@@ -251,6 +256,8 @@ public class Sandbox extends Application {
 		myObj.setScaleZ(prevObject.getScaleZ());
 
 		tempXform.getChildren().add(myObj);
+		tempXform.getTransforms().clear();
+		tempXform.getTransforms().add(new Rotate(prevXform.getRotate(), pivotX, pivotY, pivotZ));
 		moleculeGroup.getChildren().add(tempXform);
 	}
 
@@ -473,6 +480,25 @@ public class Sandbox extends Application {
 					break;
 				case R:
 					prevXform.setRotate(prevXform.getRotate()+2);
+					break;
+				case F:
+					pivotX+=2;
+					prevXform.getTransforms().clear();
+					prevXform.getTransforms().add(new Rotate(prevXform.getRotate(), pivotX, pivotY, pivotZ));
+					break;
+				case G:
+					pivotY+=2;
+					prevXform.getTransforms().clear();
+					prevXform.getTransforms().add(new Rotate(prevXform.getRotate(), pivotX, pivotY, pivotZ));
+					break;
+				case H:
+					pivotZ+=2;
+					prevXform.getTransforms().clear();
+					prevXform.getTransforms().add(new Rotate(prevXform.getRotate(), pivotX, pivotY, pivotZ));
+					break;
+				case J:
+					prevXform.getTransforms().clear();
+					prevXform.getTransforms().add(new Rotate(prevXform.getRotate()+2, pivotX, pivotY, pivotZ));
 					break;
 				}
 			}
